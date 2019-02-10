@@ -2,15 +2,9 @@
 
 * [Content](README.md)
 
-## Linear Regression
+## Classic Machine Learning
 
-* [Residual](linear-regression/residual.md)
-* [Untitled](linear-regression/untitled-1.md)
-* [Untitled](linear-regression/untitled-2.md)
-
-## Logistic Regression
-
-* [Untitled](logistic-regression/untitled.md)
+* [Linear Regression](machine-learning/untitled.md)
 
 ## Basic Deep Learning
 
