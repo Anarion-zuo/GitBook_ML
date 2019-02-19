@@ -78,8 +78,6 @@ $$
 J=(w_0+\sum_{i=1}^Dw_ix_i-y_i)^2
 $$
 
-## Regular
-
 ## Over Regression
 
 When given a sample, we tend to fix the model so that the model would fit the sample as much as possible.One extreme way of doing this is to have a Nth degree polynomial to fit the sample with N frames so that the curve of the model would travel through every point of the sample. When the sample is perfected fitted by the model, the model might not behave so well when dealing with the real world, for the natural law in the real world cannot be contained by any sample that can be possibly collected.
@@ -184,7 +182,9 @@ where $$\partial f$$ is the subderivative. The necessary and insufficient condit
 
 ### Axis Dscend Method
 
-### Model Evaluation
+## Model Evaluation
+
+### Scores
 
 * Rooted Mean Squared Erro, RMSE
 
@@ -227,6 +227,20 @@ $$
 * Explained variance score
 
 $$
-explained_variance(y,\hat{y})1-\frac{Var(y-\hat{y})}{Var(y)}
+explained\_variance(y,\hat{y})1-\frac{Var(y-\hat{y})}{Var(y)}
 $$
+
+### Cross Validation
+
+For a given model and some sample collected, it is not easy to evaluate the validation of the model, for the model is trained by the sample and we have no other sample specially prepared to examine the model. The method of solving such problem, however, is obvious. Namely, we extract a part of the sample for testing and the rest for training, whereby creates the training set and the testing set. The different ways of implementation of such ideas are manyfold, all of which origin from the idea of cross validation.
+
+Cross validation is to construct multiple models by multiple ways of splitting the training and testing set. The easiest idea is to split the sample into multiple parts of the same size. Construct the model with all of the parts but one and test the model with the leftover part. This is the K-Fold Cross Validation, where it split the sample into K parts.
+
+The score of the model is the average of the scores of all of the models.
+
+$$
+e=\frac{1}{K}\sum_{i=1}^Ke_i
+$$
+
+
 
