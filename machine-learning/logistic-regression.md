@@ -68,3 +68,7 @@ $$
 J(W;C)=C\sum_{i=1}^NL(y_i,\mu(x_i;W))+R(W)
 $$
 
+### Solve the Model
+
+
+
