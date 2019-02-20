@@ -4,8 +4,8 @@
 
 ## Classic Machine Learning
 
-* [Linear Regression](machine-learning/untitled.md)
-* [Logistic Regression](machine-learning/logistic-regression.md)
+* [Linear Regression](classic-machine-learning/untitled.md)
+* [Logistic Regression](classic-machine-learning/logistic-regression.md)
 
 ## Basic Deep Learning
 
