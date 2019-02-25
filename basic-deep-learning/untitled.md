@@ -259,10 +259,38 @@ $$
 L(Y,f(X))=-Y\ln(f(X))
 $$
 
+Multi-task Cross Entropy Loss:
+$$
+L(Y,f(x))=-\frac{1}{m}\sum_{i=1}^m\sum_ky_i\ln(f(x_i))
+$$
+Specially, for 2 tasks:
+$$
+L(Y,f(X))=-\frac{1}{m}\sum_{i=1}^m(y_i\ln(f(x_i)+(1-y_i)\ln(1-f(x_i))))
+$$
+
 
 ### Regression Loss
 
+L1 Loss:
+$$
+L(Y,f(x))=|Y-f(x)|
+$$
+L2 Loss:
+$$
+L(Y,f(x))=(Y-f(x))^2
+$$
+Huber:
+$$
+L(Y,f(x))=\begin{cases}
+\frac{1}{2}(Y-f(x))^2 & |Y-f(x)|\le\delta\\
+\delta|Y-f(x)|-\frac{1}{2} & otherwise
+\end{cases}
+$$
 
+
+## Initialization
+
+If we initialize all of the coefficients to be 0, no matter what the input is, the output remains unchanged. A better idea may be to initialize the coefficients to be distributed $N(0,\sigma^2)$. There is a problem with normal distribution that the result might be too large. Therefore, it is no appropriate to have a might-fail model.
 
 ## Over Regression
 
@@ -275,4 +303,18 @@ In order to improve the behavior of a deep network, when training a network, for
 The output of the layer should be:
 $$
 \widetilde{h}^{(l)}=r^{(l)}h^{(l)},r^{(l)}\sim Bernoulli(p)
+$$
+
+### Regular
+
+$$
+J(t,f(x,W))=L(t,f(x,W))+\eta \Omega(W)
+$$
+
+where $\eta$ is the learning rate. Similarly, we may have L1 and L2 regular.
+$$
+\begin{align*}
+\Omega_{L1}(W)&=|W|=\sum|w_i|\\
+\Omega_{L2}(W)&=||W||^2=\sum|w_i|^2
+\end{align*}
 $$
