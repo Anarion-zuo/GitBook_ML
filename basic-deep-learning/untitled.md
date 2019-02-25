@@ -296,7 +296,7 @@ If we initialize all of the coefficients to be 0, no matter what the input is, t
 
 ### Dropout
 
-In order to improve the behavior of a deep network, when training a network, for each layer, we drop out every neuron with a constant probability $p​$. Therefore, the number of the remaining neurons is Bernoulli distributed. 
+In order to improve the behavior of a deep network, when training a network, for each layer, we drop out every neuron with a constant probability $p$. Therefore, the number of the remaining neurons is Bernoulli distributed. 
 
 ![1551015762087](C:\Users\a\AppData\Roaming\Typora\typora-user-images\1551015762087.png)
 

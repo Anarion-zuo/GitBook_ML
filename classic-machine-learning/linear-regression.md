@@ -168,7 +168,7 @@ Often, we deal with a large amount of sample. If we stick to the analytical meth
 The ending condition can be:
 
 1. Number of iteration meets the given maximum.
-2. $$J$$ varies little while $$W$$ varies. $$\frac{J(W^{(t)})-J(W^{(t+1)}}{J(W^{(t)})}\le \epsilon$$ 
+2. $$J$$ varies little while $$W$$ varies. $$\frac{J(W^{(t)})-J(W^{(t+1)}}{J(W^{(t)})}\le \epsilon​$$ 
 
 ### Subderivative
 
@@ -178,7 +178,7 @@ $$
 a=\lim_{x\rightarrow x_0^-}\frac{f(x)-f(x_0)}{x-x_0},b=\lim_{x\rightarrow x_0^+}\frac{f(x)-f(x_0)}{x-x_0},\partial f\in[a,b]
 $$
 
-where $$\partial f$$ is the subderivative. The necessary and insufficient condition of a point is critical point is that 0 is in the interval. Hence, some function containing absolute notation can be applied to the gradient descend method.
+where $$\partial f​$$ is the subderivative. The necessary and insufficient condition of a point is critical point is that 0 is in the interval. Hence, some function containing absolute notation can be applied to the gradient descend method.
 
 ### Axis Dscend Method
 
