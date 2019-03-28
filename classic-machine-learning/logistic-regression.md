@@ -131,19 +131,19 @@ $$
 
 Often, some categories give less data sample than other categories. When the difference of the amount of data sample is too significant, we may do something to balance the categories.
 
-### Undersampling
+### Under-Sampling
 
 Randomly take a part of the larger sample as a sample, which might cause some damage of information and some error.
 
-### OverSampling
+### Over-Sampling
 
 Randomly repeatedly rake a part of the smaller sample as a sample, which might cause the weight of certain parts of the sample to be unjustly magnified and the model to lean upon those parts.
 
-### EasyEnsemble
+### Easy-Ensemble
 
 Generate n samples by n times of under-sampling from larger samples, by which generate n models. The output of the final model is the average of these models.
 
-### BalanceCascade
+### Balance-Cascade
 
 Generate a sample as large as the small sample by under-sampling from larger samples. Generate a model with this sample and other smaller samples. Select those ones of mistakes and fix the model with other part of the larger sample.
 
@@ -167,9 +167,8 @@ Generate a sample as large as the small sample by under-sampling from larger sam
 
   |  | Prediction wrong | Prediction right |
   | :---: | :---: | :---: |
-  | Predict 0 | $C\_{00}$ | $C\_{01}$ |
-
-  Predict 1 \| $C_{10}$ \| $C_{11}$ \|
+  | Predict 0 | $C_{00}$ | $C_{01}$ |
+  |Predict 1 | $C_{10}$ | $C_{11}$ |
 
   **Class Weight**
 

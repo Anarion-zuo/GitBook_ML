@@ -54,6 +54,12 @@ $$
 
 ![Laplace Distribution](../.gitbook/assets/image.png)
 
+Furthermore, for any positive integer $n$, there is a certain kind of distribution with different factor.
+$$
+p(x)=e^{-\frac{x^n}{\alpha}}
+$$
+
+
 ### Linear Model
 
 Linear model is the simplest, yet most useful, model in the field of machine learning.
@@ -64,7 +70,7 @@ $$
 
 {% tabs %}
 {% tab title="First Tab" %}
-$$w_0$$: bias,  $$W/w_i$$ : regression coefficient
+$$w_0$$: bias,  $$W/w_i​$$ : regression coefficient
 {% endtab %}
 
 {% tab title="Second Tab" %}
@@ -124,7 +130,9 @@ $$
 R(W)=\sum_{i=1}^D(\frac{1-\rho}{2}w_i^2+\rho |w_i|)
 $$
 
-### Probability Explaination of Regular
+### Probability Explanation of Regular
+
+
 
 ## Finding Critical Point
 
