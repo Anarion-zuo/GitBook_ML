@@ -42,7 +42,7 @@ The idea above works for the samples totally linearly separable. When dealing wi
 $$
 \begin{align*}
 &\min_{w,b}\quad\frac{1}{2}||w||_2^2+C\sum_{i=1}^N\xi_i\\
-&s.t.\quad y_i(w^T+w_0)\ge1-\xi_i,i=1,...,N,\xi_i\ge0
+&s.t.\quad y_i(w^Tx+w_0)\ge1-\xi_i,i=1,...,N,\xi_i\ge0
 \end{align*}
 $$
 Under the special case of SVM, we define that when $y_i(w_0+w^Tx_i)\ge1$, there is $\xi_i=0$. And if not so, $\xi_i=1-y_i(w_0+w^Tx_i)$. Therefore, the loss function is set to be:
@@ -125,6 +125,57 @@ $$
 a_i^*g_i(x^*)=0,1\le i\le K
 $$
 
+Plug in for Lagrange problem:
+$$
+\begin{align*}
+&\frac{\partial L}{\partial w}=0\Rightarrow w=\sum_{i=1}^N\alpha_iy_ix_i\\
+&\frac{\partial L}{\partial b}=0\Rightarrow\sum_{i=1}^N\alpha_iy_i=0\\
+&\frac{\partial L}{\partial\xi_i}=0\Rightarrow C=\alpha_i+\mu_i
+\end{align*}
+$$
+Therefore, the target function is:
+$$
+L(\alpha)=\sum_{i=1}^N\alpha_i-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jx_i^Tx_j,0\le\alpha_i\le C,\sum_{i=1}^N\alpha_iy_i=0
+$$
+After $\alpha$ is obtained, the other factors can be obtained by it.
+$$
+w=\sum_{i=1}^N\alpha_iy_ix_i,b=\frac{1}{N_S}\sum_{m\in S}(y_m-\sum_{m'\in S}\alpha_{m'}y_{m'}x_m^Tx_{m'})
+$$
+The model is:
+$$
+f(x)=\sum_{i=1}^N\alpha_iy_ix_i^Tx+b,\hat{y}=sgn(f(x))
+$$
 
-$
+### Dual Complementary Condition
+
+$$
+a_i^*g_i(x^*)=0,1\le i\le K
+$$
+
+It can be found from the formula that when $a_i^*$ is 0, the sample is weightless, while when $g_i^*​$ is 0, the sample is quite weighted. The weighted samples are called the supported vectors.
+
+## Kernel
+
+In order to be better than the behavior of a simple linear model, we introduce kernel functions into our model, so that some unlinearity may be introduced by it. The kernel function is represneted as:
+$$
+\phi(x)=(x_1^2,\sqrt{2}x_1x_2,x_2^2)
+$$
+or other form of transformation. For all of the expressions mentioned above, $x$ should be changed into $\phi(x)$. For polynomial cases, when the number of dimensions is to large, the time complexity of constructing kernel or dot product may be too large. Therefore, we compute the dot product beforehand.
+$$
+k(x,x')=\phi(x)^T\phi(x')
+$$
+
+### Polynomial
+
+$$
+k(x,x')=(\gamma x^Tx'+r)^M
+$$
+
+### RBF
+
+$$
+k(x,x')=\exp(-\frac{1}{2}(x-x')^T\Sigma^{-1}(x-x'))
+$$
+
+
 
