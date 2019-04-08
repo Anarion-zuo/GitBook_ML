@@ -8,11 +8,11 @@ description: 'D for number of dimension, N for number of frames.'
 
 ### The Goal of Machine Learning
 
-For a certain kind of event having a certain input and outcome, we would like to find a certain method to somehow predict the outcome before the inoput ever takes place. For this operation to be possible, the predicting event or model must follow a certain law of nature and the law somehow remains constant in a short period of time. Otherwise, for a entirely random system, it is, by itself, impossible to predict.
+For a certain kind of event having a certain input and outcome, we would like to find a certain method to somehow predict the outcome before the input ever takes place. For this operation to be possible, the predicting event or model must follow a certain law of nature and the law somehow remains constant in a short period of time. Otherwise, for a entirely random system, it is, by itself, impossible to predict.
 
 In order to actually make prediction valid and possible, we tend to look for the mathematical principle under the surface of each events. Namely, how are the variables effecting each other. The ideal model we can never get is that the output of the model can perfectly describe the outcome of the actual event under the same condition. Hence, we want the differences between our model and the real world to be as little as possible.
 
-### Loss Function
+### Loss  Function
 
 As is mentioned above, we would want the differences between the real world and our model. To illustrate differences in Math, it is namely:
 
@@ -28,7 +28,7 @@ $$
 
 Other ideas can be holding larger exponent, Ln. The function describing the distance is called the loss function. In the following paragraphs, Loss Function will be noted as $$J()$$ .
 
-### Probability Explaination of Residual
+### Probability Explanation of Residual
 
 In the previous paragraphs, it is explained how Residual is intuitively or logically right. In fact, Residual is stricted derived by probability theory. Let us presume that the sample we collected has a certain noise with Normal Distribution, that is, white noise.
 
@@ -39,7 +39,7 @@ $$
 Maximum Likelihood Approximation:
 
 $$
-p(y|x_i)=\frac{1}{\sqrt{2\pi\sigma}}e^{-\frac{(y-f(x_i))^2}{2\sigma^2}}
+p(y|x_i)=\frac{1}{\sqrt{2\pi\sigma}}\exp(-\frac{(y-f(x_i))^2}{2\sigma^2})
 $$
 
 $$
@@ -56,7 +56,7 @@ $$
 
 Furthermore, for any positive integer $n$, there is a certain kind of distribution with different factor.
 $$
-p(x)=e^{-\frac{x^n}{\alpha}}
+p(x)\propto e^{-\frac{x^n}{\alpha}}
 $$
 
 
@@ -65,18 +65,9 @@ $$
 Linear model is the simplest, yet most useful, model in the field of machine learning.
 
 $$
-\hat{y}=w_0+W^Tx=w_0+\sum_{i=1}^Dw_ix_i
+\hat{y}=w_0+W^Tx=w_0+\sum_{i=1}^Dw_ix_i\\
+w_0: bias,  W/w_i : regression\_coefficient
 $$
-
-{% tabs %}
-{% tab title="First Tab" %}
-$$w_0$$: bias,  $$W/w_i​$$ : regression coefficient
-{% endtab %}
-
-{% tab title="Second Tab" %}
-
-{% endtab %}
-{% endtabs %}
 
 L2 Loss:
 
@@ -132,7 +123,23 @@ $$
 
 ### Probability Explanation of Regular
 
-
+The purpose of regular is to prevent the weights from getting too big. Suppose the weights are normally distributed, $p(w_j)=\frac{1}{\sqrt{2\pi}\tau}\exp{(-\frac{w_j^2}{2\tau^2})}​$. According to Bayes’s theorem, there is:
+$$
+p(W|D)p(D)=p(W)p(D|W),p(W|D)\propto p(W)p(D|W)
+$$
+where $p(W)$ is the combination of its components.
+$$
+p(W)=\prod_{j=1}^Dp(w_j)
+$$
+The logarithm of $p(W|D)$ is:
+$$
+\ln p(W|D)=-\frac{D}{2}\ln2\pi-D\ln\tau-\sum_{j=1}^D\frac{w_j^2}{2\tau^2}-\frac{N}{2}\ln2\pi-N\ln\sigma-\sum_{1=1}^D\frac{(y_i-f(x_i;W))^2}{2\sigma^2}
+$$
+The result of optimization is:
+$$
+\hat W=\arg\min_W(\frac{\sigma^2}{\tau^2}\sum_{j=1}^Dw_j^2+\sum_{i=1}^N(y_i-f(x_i;W))^2)
+$$
+The $\frac{\sigma^2}{\tau^2}$ is our regular coefficient $\lambda$, comparing to the analytical solution of Ridge. Thus, the form and probability feature of regular function is proved.
 
 ## Finding Critical Point
 
@@ -176,7 +183,7 @@ Often, we deal with a large amount of sample. If we stick to the analytical meth
 The ending condition can be:
 
 1. Number of iteration meets the given maximum.
-2. $$J$$ varies little while $$W$$ varies. $$\frac{J(W^{(t)})-J(W^{(t+1)}}{J(W^{(t)})}\le \epsilon​$$ 
+2. $$J$$ varies little while $$W$$ varies. $$\frac{J(W^{(t)})-J(W^{(t+1)})}{J(W^{(t)})}\le \epsilon$$ 
 
 ### Subderivative
 
@@ -188,7 +195,7 @@ $$
 
 where $$\partial f​$$ is the subderivative. The necessary and insufficient condition of a point is critical point is that 0 is in the interval. Hence, some function containing absolute notation can be applied to the gradient descend method.
 
-### Axis Dscend Method
+### Axis Descend Method
 
 ## Model Evaluation
 

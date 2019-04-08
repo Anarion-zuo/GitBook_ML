@@ -35,8 +35,8 @@ $$
 The rule of deciding the output is simple, which is to check which probability is larger.
 
 1. $$f(x)>0,y=1$$
-2. $$f(x)<0,y=0$$ 
-3. $$f(x)=0$$ , special treatment.
+2. $$f(x)<0,y=0​$$ 
+3. $$f(x)=0$$ , special treatment or nothing.
 
 ![Simple 2-var Case](../.gitbook/assets/image%20%282%29.png)
 
@@ -62,7 +62,7 @@ $$
 L(y,\mu(x))=-l(\mu)
 $$
 
-Simillarly, the regular term can be L1 or L2. There must be a regular term in Logistic Regression model, for the complexity of the model is too much. Therefore, in sklearn, the target function is:
+Similarly, the regular term can be L1 or L2. There must be a regular term in Logistic Regression model. Therefore, in sklearn, the target function is:
 
 $$
 J(W;C)=C\sum_{i=1}^NL(y_i,\mu(x_i;W))+R(W)
@@ -95,9 +95,9 @@ Namely, take one of the categories as one category and the rest as another.
 
 Bernoulli distribution has only 2 kinds of output whereas Multinoulli has more kinds of output.
 
-| $X$ | $x\_1$ | $x\_2$ | $...$ | $x\_N$ |
+| $X$ | $x_1$ | $x_2$ | $...$ | $x_N$ |
 | :---: | :---: | :---: | :---: | :---: |
-| $\theta$ | $\theta\_2$ | $\theta\_3$ | $...$ | $\theta\_N$ |
+| $\theta$ | $\theta_2$ | $\theta_3$ | $...$ | $\theta_N$ |
 
 Write the distribution continuously.
 
@@ -127,17 +127,17 @@ $$
 J(w) = -l(M) = \sum_{i=1}^N(\sum_{c=1}^Cy_{ic}w_c^Tx-\ln\sum_{c=1}^Ce^{w_{c'}^Tx})
 $$
 
-## Unbalanced Data Sample
+## Unbalanced Data Set
 
-Often, some categories give less data sample than other categories. When the difference of the amount of data sample is too significant, we may do something to balance the categories.
+Often, some categories give fewer data samples than other categories. When the difference of the amount of data samples is too significant, we may do something to balance the categories.
 
 ### Under-Sampling
 
-Randomly take a part of the larger sample as a sample, which might cause some damage of information and some error.
+Randomly take a part of the larger set as a set, which might cause some damage of information and some error.
 
 ### Over-Sampling
 
-Randomly repeatedly rake a part of the smaller sample as a sample, which might cause the weight of certain parts of the sample to be unjustly magnified and the model to lean upon those parts.
+Randomly repeatedly rake a part of the smaller sample to construct more samples in the set, which might cause the weight of certain parts of the sample to be unjustly magnified and the model to lean upon those parts.
 
 ### Easy-Ensemble
 
@@ -149,15 +149,19 @@ Generate a sample as large as the small sample by under-sampling from larger sam
 
 ### Synthetic Minority Over-sampling Technique \(SMOTE\)
 
-* Select a data frame in a smaller sample with index i and vector $x\_i$.
-* Find K neighbours of $x_i$ in the smaller sample $x_{i\(near\)},near\in{1,...,K}$.
-* Randomly select a sample in the neighbours $x\_{i\(nn\)}$. And generate a random number between 0 and 1, $\zeta$,
+![1554639985537](C:\Users\a\AppData\Roaming\Typora\typora-user-images\1554639985537.png)
+
+* Select a sample in the smaller set with index i and vector $x_i$.
+
+* Find K neighbors of $x_i​$ in the smaller sample $x_{i(near)},near\in{1,...,K}​$.
+
+* Randomly select a sample in the neighbors $x_{i(nn)}​$. And generate a random number between 0 and 1, $\zeta​$,
 
   $$
   x_{i1} = (1-\zeta)x_i + \zeta x_{i(near)}
   $$
 
-  whereas $x_i$ is a point on the straight line between all of the $x_{i\(nn\)}$ as an insertion.
+  whereas $x_i$ is a point on the straight line between all of the $x_{i(nn)}$ as an insertion.
 
 * SMOTE algorithm can prevent errors from over fitting. However it is not so valid for high dimensional cases and might cause over lap among categories. In order to eliminate the disadvantage of SMOTE, we have Borderline-SMOTE and many other fixing method.
 
@@ -173,7 +177,9 @@ Generate a sample as large as the small sample by under-sampling from larger sam
   **Class Weight**
 
 * Regardless of class weights;
+
 * Balanced mode: Compute class weight according to the amount of certain data samples;
+
 * Manually set.
 
 ## Evaluation
@@ -186,68 +192,68 @@ $$
 \ln J(Y,P) = -\frac{1}{N}\sum_{i=0}^N\sum_{c=0}^Cy_{ic}\ln p_{ic}
 $$
 
-* $C$ for the number of categories. $y_i$ for the vector of one-hot encoding. $p_{ic}$ for the probability for the output to be the $i$th sample of category $c$.
+* $C​$ for the number of categories. $y_i​$ for the vector of one-hot encoding. $p_{ic}​$ for the probability for the output to be the $i​$th sample of category $c​$.
 
-  **Zero-one Loss**
+### Zero-one Loss
 
-  The zero-one loss function's average output over all test result can serve as error rate.
+The zero-one loss function's average output over all test result can serve as error rate.
 
-  $$
-  \frac{1}{N}\sum_{i=0}^NI(\hat{y}_i \ne y_i)
-  $$
+$$
+\frac{1}{N}\sum_{i=0}^NI(\hat{y}_i \ne y_i)
+$$
 
-  Same goes for accuracy score:
+Same goes for accuracy score:
 
-  $$
-  \frac{1}{N}\sum_{i=0}^NI(\hat{y}_i = y_i)
-  $$
+$$
+\frac{1}{N}\sum_{i=0}^NI(\hat{y}_i = y_i)
+$$
 
-  **Hinge Loss**
+### Hinge Loss
 
-  $$
-  \frac{1}{N}\sum_{i=0}^NI(1 - \hat{y}_iy_i)
-  $$
+$$
+\frac{1}{N}\sum_{i=0}^NI(1 - \hat{y}_iy_i)
+$$
 
-  **Confusion Matrix**
+### Confusion Matrix
 
-  $a\_{ij}$ stands for having an object belongs to $i$th category classified to $j$th property by the model. A good enough model should have a confusion matrix with many large numbers on the diag.
+$a\_{ij}$ stands for having an object belongs to $i$th category classified to $j$th property by the model. A good enough model should have a confusion matrix with many large numbers on the diag.
 
-  **ROC/AUC\(OvR\)**
+### ROC/AUC (OvR)
 
-  |  | $\hat{y} = 1$ | $\hat{y} = 0$ | $\Sigma$ |
-  | :---: | :---: | :---: | :---: |
-  | $y = 1$ | True Positive\(TP\) | False Negative\(FN\) | $N\_+$ |
-  | $y = 0$ | False Positive\(FP\) | True Negative\(TN\) | $N\_-$ |
-  | $\Sigma$ | $\hat{N}\_+$ | $\hat{N}\_+$ |  |
+|  | $\hat{y} = 1$ | $\hat{y} = 0$ | $\Sigma$ |
+| :---: | :---: | :---: | :---: |
+| $y = 1$ | True Positive\(TP\) | False Negative\(FN\) | $N_+$ |
+| $y = 0$ | False Positive\(FP\) | True Negative\(TN\) | $N_-$ |
+| $\Sigma$ | $\hat{N}_+$ | $\hat{N}_+$ |  |
 
-  $$
-  Precision = \frac{TP}{\hat{N}_+},
-  TPR = Recall = \frac{TP}{N_+},
-  FPR = \frac{FP}{N_-}\\
-  F1 = 2\frac{Precision \times Recall}{Precision + Recall} = \frac{TP}{2TP + FP + FN}
-  $$
+$$
+Precision = \frac{TP}{\hat{N}_+},
+TPR = Recall = \frac{TP}{N_+},
+FPR = \frac{FP}{N_-}\\
+F1 = 2\frac{Precision \times Recall}{Precision + Recall} = \frac{TP}{2TP + FP + FN}
+$$
 
-  Often, when we have high precision, we have low recall. Backward also. Hence, we need a balanced factor of these 2 $F1$.
+Often, when we have high precision, we have low recall. Backward also. Hence, we need a balanced factor of these 2 $F1$.
 
-  $$
-  Matthews\_Correlation\_Coefficient = MCC = \\ \frac{TP\times TN - FP\times FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}\\
-  MCC = \begin{cases}
-    1 & \Rightarrow perfect\quad model\\
-    0 & \Rightarrow random\quad model\\
-    -1 & \Rightarrow kidding\quad model(\text{outputs are exactly opposite to the real world})
-  \end{cases}
-  MCC\in [-1,1]
-  $$
+$$
+Matthews\_Correlation\_Coefficient = MCC = \\ \frac{TP\times TN - FP\times FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}\\
+MCC = \begin{cases}
+  1 & \Rightarrow perfect\quad model\\
+  0 & \Rightarrow random\quad model\\
+  -1 & \Rightarrow kidding\quad model(\text{outputs are exactly opposite to the real world})
+\end{cases}
+MCC\in [-1,1]
+$$
 
-  When the samples are extremely unbalanced, the accuracy score is not a valid evaluation. We should apply the MCC and other methods.
+When the samples are extremely unbalanced, the accuracy score is not a valid evaluation. We should apply the MCC and other methods.
 
 In the process of classifying, for each returned probability value from the model, we deem the object to be in a certain category according to a certain threshold. Namely, if the probability is larger than the threshold, we deem it to be in one category, and if not, the other. In order to find the best threshold value, we plug and try different values into the model and draw ROC curve. The closer the curve is to the left up angle, the better the model is. However, the shape of the curve can only be told by human eyes, not for machines to compare its magnitude. In order to have something for the machine to deal with, we compute the area under the curve to determine whether the model is good enough accurately. Another advantage of ROC is that the curve does not change easily according to the samples. 
 
 ![ROC](../.gitbook/assets/image%20%284%29.png)
 
-### Precision and Recall \(PR\)\(OvR\)
+### Precision and Recall \(PR\) \(OvR\)
 
-The PR curve is applied when estimating rare events such as recommending system and information searching. Specifically, it is when $N\_-$ is very small and ROC is too close to x-axis. The closer the curve is to the right up angle, the better the model is. 
+The PR curve is applied when estimating rare events such as recommending system and information searching. Specifically, it is when $N_-$ is very small and ROC is too close to x-axis. The closer the curve is to the right up angle, the better the model is. 
 
 ![PR](../.gitbook/assets/image%20%283%29.png)
 

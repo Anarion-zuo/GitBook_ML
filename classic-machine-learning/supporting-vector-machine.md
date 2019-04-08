@@ -1,4 +1,4 @@
-# Supporting Vector Machine
+# Support Vector Machine
 
 ## Idea
 
@@ -160,7 +160,11 @@ In order to be better than the behavior of a simple linear model, we introduce k
 $$
 \phi(x)=(x_1^2,\sqrt{2}x_1x_2,x_2^2)
 $$
-or other form of transformation. For all of the expressions mentioned above, $x$ should be changed into $\phi(x)$. For polynomial cases, when the number of dimensions is to large, the time complexity of constructing kernel or dot product may be too large. Therefore, we compute the dot product beforehand.
+or other form of transformation. For all of the expressions mentioned above, $x$ should be changed into $\phi(x)$.
+$$
+W(\alpha)=\sum_{i=0}^N\alpha_i-\frac{1}{2}\sum_{i=0}^N\sum_{j=0}^N\alpha_i\alpha_jy_iy_j\phi(x)^T\phi(x')
+$$
+For polynomial cases, when the number of dimensions is to large, the time complexity of constructing kernel or dot product may be too large. Therefore, we compute the dot product beforehand.
 $$
 k(x,x')=\phi(x)^T\phi(x')
 $$
@@ -174,8 +178,31 @@ $$
 ### RBF
 
 $$
-k(x,x')=\exp(-\frac{1}{2}(x-x')^T\Sigma^{-1}(x-x'))
+k(x,x')=\exp(-\frac{(x-x')^2}{2\sigma^2})
+$$
+
+where $\sigma$ is the band width of the kernel. 
+
+## Support Vector Regression (SVR)
+
+Extending the idea of supported vectors, we alter the loss function of some regression machine to insensitive loss. 
+
+![1554566483773](C:\Users\a\AppData\Roaming\Typora\typora-user-images\1554566483773.png)
+$$
+L_\epsilon(y,\hat{y})=\begin{cases}
+0&|y-\hat y|\le\epsilon\\
+|y-\hat y|-\epsilon&otherwise
+\end{cases}
 $$
 
 
-
+Only when the sample is too far from the regressed model, shall we take it as a valid training sample. Hence, the target function for linear model becomes:
+$$
+\min_{w,b}\frac{1}{2}||w||^2_2\\
+s.t.\quad|y_i-w^Tx_i-b|\le\epsilon
+$$
+If we want to add a tolerance to the function, since we are using absolute value for the function, we need 2 values signifying tolerance.
+$$
+\min_{w,b}\frac{1}{2}||w||_2^2+C\sum_{i=1}^N(\xi_i^\lor+\xi_i^\land)\\
+s.t.\quad-\epsilon-\xi_i^\lor\le y_i-w^Tx_i-b\le\epsilon+\xi_i^\land,\xi_i^\lor\ge0,\xi_i^\land\ge0
+$$
