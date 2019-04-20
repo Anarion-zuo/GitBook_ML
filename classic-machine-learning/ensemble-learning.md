@@ -154,7 +154,7 @@ $$
   - Update $f_m(x)=f_{m-1}(x)+\eta\phi_m(x)$.
 - return $f(x)=f_M(x)$.
 
-### AdaBoost,
+### AdaBoost
 
 - Plug in exponential loss, $L=\exp(-yf(x))$.
 - Plug in target function, $J(f)=\sum_{i=1}^NL(f(x_i),y_i)$.
@@ -192,4 +192,37 @@ $$
 For a larger amount of models, add an extra coefficient $\eta$, also known as learning rate.
 $$
 f_m(x)=f_{m-1}(x)+\eta\alpha_m\phi_m(x)
+$$
+
+## XGBoost
+
+### Loss Function
+
+Suppose there is such induction relation along the training process.
+$$
+f_m(x_i)=f_{m-1}(x_i)+\phi(x_i)
+$$
+For any loss function $L(y_i,f_m(x_i))$, its secondary Taylor’s expansion at $f_{m-1}$.
+
+- Secondary Taylor’s expansion:
+
+$$
+f(x+dx)=f(x)+f'(x)dx+\frac{1}{2}f''(x)dx^2
+$$
+
+- Derivative
+
+$$
+g_{m,i}=\frac{\partial L(f(x_i),y_i)}{\partial f(x_i)}\Big|_{f=f{m-1}},h_{m,i}=\frac{\partial^2 L(f(x_i),y_i)}{\partial f(x_i)^2}\Big|_{f=f{m-1}}
+$$
+
+- Plug in derivative
+
+$$
+L(y_i,f_{m-1}(x_i)+\phi(x_i))=L(f_{m-1}(x_i),y_i)+g_{m,i}\phi(x_i)+\frac{1}{2}h_{m,i}\phi(x_i)^2
+$$
+
+For L2 loss,
+$$
+g_{m,i}=f_{m-1}(x_i)-y_i,h_{m,i}=1
 $$
