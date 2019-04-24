@@ -83,9 +83,9 @@ Define error/rate of correctness of a specified model m:
 $$
 \epsilon_m=\frac{\sum_{i=1}^Nw_{m,i}I(y_i\ne\phi_m(x_i))}{Z_m},Z_m=\sum_{i=1}^Nw_{m,i}
 $$
-Set initial values to be uniformly distributed, $w_{1,i}=\frac{1}{N}​$. When progressing to the next model, $\phi_{m+1}​$, we treat the new weights as following:
+Set initial values to be uniformly distributed, $w_{1,i}=\frac{1}{N}$. When progressing to the next model, $\phi_{m+1}$, we treat the new weights as following:
 
-- For the rightly classified samples, multiply its weight by some constant $d_m​$.
+- For the rightly classified samples, multiply its weight by some constant $d_m$.
 - For the wrongly classified samples, divide its weight by the same constant $d_m$.
 
 Suppose the error/rate of correctness of the next model is randomly distributed, there is:
@@ -132,7 +132,7 @@ Plug in training error:
 $$
 \frac{1}{N}\sum_{i=1}^N\exp(-y_if(x_i))=\prod_{m=1}^MZ_{m+1}=2^M\prod_{m=1}^M\sqrt{\epsilon_m(1-\epsilon_m)}
 $$
-Tell whether it increase or decrease with respect to $M​$:
+Tell whether it increase or decrease with respect to $M$:
 $$
 \frac{2^{M+1}\prod_{m=1}^{M+1}\sqrt{\epsilon_m(1-\epsilon_m)}}{2^M\prod_{m=1}^M\sqrt{\epsilon_m(1-\epsilon_m)}}=2\sqrt{\epsilon_{M+1}(1-\epsilon_{M+1})}\le1
 $$
@@ -226,3 +226,87 @@ For L2 loss,
 $$
 g_{m,i}=f_{m-1}(x_i)-y_i,h_{m,i}=1
 $$
+
+### Tree Model
+
+#### Loss Function
+
+The complexity of tree is described as:
+$$
+R(\phi(x))=\gamma T+\frac{1}{2}\lambda\sum_{t=1}^Tw_t^2
+$$
+
+Suppose the subset of the whole set upon a certain leaf node is $I_t=\{i|q(x_i)=t\}$.
+$$
+\begin{align*}J(\phi(x))&=\sum_{i=1}^NL(f(x_i),y_i)+R(\phi(x))\\&=\sum_{i=1}^N(g_{m,i}\phi(x_i)+\frac{1}{2}h_{m,i}w_{q(x_i)}^2)+\gamma T+\frac{1}{2}\lambda\sum_{t=1}^Tw_t^2\\&=\gamma T+\sum_{t=1}^T(G_tw_t+\frac{1}{2}(H_t+\lambda)w_t^2)\end{align*}\\G_t=\sum_{i\in I_t}g_{m,i},H_t=\sum_{i\in I_t}h_{m,i}
+$$
+
+Optimization with respect to $w_t$:
+$$
+\frac{\partial J(\phi(x))}{\partial w_t}=G_t+(H_t+\lambda)w_t=0,w_t^*=-\frac{G_t}{H_t+\lambda}
+$$
+
+Plug in $w_t$:
+$$
+J(\phi(x))=-\frac{1}{2}\sum_{t=1}^T\frac{G_t^2}{H_t+\lambda}+\gamma T
+$$
+
+#### Construction
+
+- Greedily increasing the number of leaf node.
+- Initiating with 0-depth tree.
+- For every leaf node, try to split it into 2 children.
+  - Suppose a potential splitting operation splits the set into 2 subsets $I_L,I_R,I=I_L\cup I_R$.
+  - $G_L=\sum_{i\in I_L}g_{m,i},G_R=\sum_{i\in R}g_{m,i},H_L=\sum_{i\in I_L}h_{m,i},H_R=\sum_{i\in I_R}h_{m,i}$.
+  - Define gain:
+
+$$
+Gain=\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{G_L^2+G_R^2}{H_L+H_R+\lambda}-\gamma
+$$
+
+#### Splitting Operation
+
+- For each leaf node, try all possible feature and splitting point.
+  - For each feature, sort the samples and use linear iteration to find the best splitting point.
+  - Greedily have all nodes to be in the best status.
+  - Complexity $kDN\log_2N$, where $k$ is the number of layers of the tree, $D$ is the number of features, $N$ is the number of samples.
+- Instead of looking at every sample, we may randomly pick some samples with a certain probability and apply the searching operation.
+  - Global estimation: Pick the splitting points when constructing the tree, and make all of them candidates. Better for small depth tree.
+  - Local estimation: Pick candidates at each splitting. Better for deep trees.
+
+#### Sparse Features
+
+- In real world models, we may encounter sparse features such as:
+  - NaN
+  - Artificial designs. (One-hot)
+- We may add a default direction to the tree when having unexpected input.
+
+![1555847976808](C:\Users\a\AppData\Roaming\Typora\typora-user-images\1555847976808.png)
+
+#### Pruning and Regular
+
+- Add a new term $\gamma$ to Gain.
+
+$$
+Gain=\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{G_L^2+G_R^2}{H_L+H_R+\lambda}-\gamma
+$$
+
+- Thus, new leaves may cause negative gain.
+- Terminate in advance.
+  - Terminate when having negative gain.
+- Pruning after termination.
+  - Construct the tree to the maximum depth and prune according to gain.
+  - Further prevention of over fitting: $f_m(x_i)=f_{m-1}(x_i)+\eta\phi_m(x_i)$.
+
+## LightGBM
+
+Microsoft GBDT Framework. https://github.com/Microsoft/LightGBM
+
+### Histogram
+
+Instead of looking at detailed data content, we put samples close in range into a bin and thus forms something like a histogram. 
+
+![1555841752371](C:\Users\a\AppData\Roaming\Typora\typora-user-images\1555841752371.png)
+
+#### Gradient-based One-side Sampling (GOSS)
+
